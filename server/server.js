@@ -16,7 +16,7 @@ const handleQuiz = require('./socketQuiz/quizSocketRoute');
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
   process.env.DATABASE_PASSWORD
-);;
+);
 
 mongoose
   .connect(DB, {
