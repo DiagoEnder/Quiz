@@ -9,9 +9,11 @@ import NotifyError from '../notifi/NotifyError';
 import Spinner from 'react-bootstrap/Spinner';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from "react-router-dom";
 
 function ParentAuth() {
-    const { login } = useAuth()
+    const { login, setIsLogin } = useAuth()
+    const navigate = useNavigate();
 
     const [errorSI, setErrorSI] = useState('')
     const [errorSU, setErrorSU] = useState('')
@@ -46,6 +48,7 @@ function ParentAuth() {
                 })
             setErrorSU('')
             setLoadSU(false)
+
             message.success("Success SigUp")
         }
         catch (err) {
@@ -70,6 +73,8 @@ function ParentAuth() {
             setErrorSI('')
             setLoadSI(false)
             message.success("Success login")
+            navigate('/home')
+            setIsLogin(true)
         }
         catch (err) {
             setLoadSI(false)
