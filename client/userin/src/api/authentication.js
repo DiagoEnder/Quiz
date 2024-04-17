@@ -4,7 +4,7 @@ import axios from "axios";
 const BASE_URL = "http://localhost:8000"
 
 export const LoginUser = async ({ email, password }) => {
-    const { data: { data } } = await axios.post(`${BASE_URL}/api/v1/users/login`, { email, password }, {
+    const { data } = await axios.post(`${BASE_URL}/api/v1/users/login`, { email, password }, {
         headers: {
             "Content-type": "Application/json"
         }
@@ -14,7 +14,7 @@ export const LoginUser = async ({ email, password }) => {
 }
 
 export const SignUp = async ({ name, email, password, passwordConfirm }) => {
-    const { data: { data } } = await axios.post(`${BASE_URL}/api/v1/users/signup`, { name, email, password, passwordConfirm }, {
+    const { data } = await axios.post(`${BASE_URL}/api/v1/users/signup`, { name, email, password, passwordConfirm }, {
         headers: {
             "Content-type": "Application/json"
         }

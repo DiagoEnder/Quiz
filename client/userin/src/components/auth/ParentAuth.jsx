@@ -8,8 +8,11 @@ import { message } from "antd";
 import NotifyError from '../notifi/NotifyError';
 import Spinner from 'react-bootstrap/Spinner';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useAuth } from '../context/AuthContext';
 
 function ParentAuth() {
+    const { login } = useAuth()
+
     const [errorSI, setErrorSI] = useState('')
     const [errorSU, setErrorSU] = useState('')
 
@@ -36,6 +39,11 @@ function ParentAuth() {
         setLoadSU(true)
         try {
             await SignUp({ name: usernameSU, email: emailSU, password: passSU, passwordConfirm: confirmPassSU })
+                .then(res => {
+                    console.log(res.token)
+                    console.log(res.data.user)
+                    login(res.token, res.data.user)
+                })
             setErrorSU('')
             setLoadSU(false)
             message.success("Success SigUp")
@@ -56,6 +64,9 @@ function ParentAuth() {
         e.preventDefault()
         try {
             await LoginUser({ email: usernameSI, password: passSI })
+                .then(res => {
+                    login(res.token, res.data.user)
+                })
             setErrorSI('')
             setLoadSI(false)
             message.success("Success login")
@@ -70,6 +81,7 @@ function ParentAuth() {
                 setErrorSI('Oops! Something went wrong.')
             }
         }
+        // localStorage.setItem("user_data", JSON.stringify({ userToken: newToken, user: newData }))
     }
     useEffect(() => {
     }, [])
