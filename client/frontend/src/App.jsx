@@ -21,11 +21,23 @@ function App() {
   const [scores, setScores] =useState([]);
   const [seconds, setSeconds] = useState();
   const [dataQuiz, setDataQuiz] = useState();
+  const [checkToken, setCheckToken] = useState(true);
+  
   function handlesubmit(e) {
     e.preventDefault();
     if(name && room) setInfo(true);
     // console.warn(name,room)
   }
+  
+  function handleCreateRoom() {
+    if(!checkToken) {
+      toast.error('Please login first');
+    } else {
+      setCheckToken(true);
+    }
+  }
+  
+  
   
   // useEffect(() => {
   //   const getQuiz = async() => {
@@ -38,6 +50,12 @@ function App() {
   //   }
   //   getQuiz()
   // },[])
+  
+  useEffect(() => {
+    if(checkToken) {
+      socket.emit('createRoom')
+    }
+  }, [checkToken])
   
   useEffect(() => {   
     if(name) {
@@ -87,6 +105,7 @@ function App() {
             
             <button className='join-btn' type='submit'>JOIN</button>
           </form>
+          <button onClick={handleCreateRoom} className='join-btn' type='submit'>Create</button>
         </div> :
         (
           <div>

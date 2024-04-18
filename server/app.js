@@ -6,6 +6,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cors = require('cors');
+const http = require('http');
 
 
 
@@ -14,10 +15,20 @@ const globalErrorHandler = require('./controllers/errorController');
 const userRouter = require('./routes/userRoutes');
 const quizRouter = require('./routes/quizRoute');
 const questionRouter = require('./routes/questionRouter')
-
+const roomRouter = require('./routes/roomRouter')
 
 const app = express();
-app.use(cors())
+
+const {Server} = require('socket.io');
+app.use(cors());
+
+const server = http.createServer(app);
+const io = new Server(server,{
+    cors: {
+        origin: process.env.URL_CLIENT,
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    }
+})
 
 
 console.log(process.env.NODE_ENV);
@@ -81,7 +92,7 @@ app.use((req,res,next) => {
 app.use('/api/v1/users',userRouter);
 app.use('/api/v1/quiz', quizRouter)
 app.use('/api/v1/question', questionRouter)
-
+app.use('/api/v1/live', roomRouter)
 
 
 app.all('*', (req,res, next) => {
@@ -91,4 +102,4 @@ app.all('*', (req,res, next) => {
 
 app.use(globalErrorHandler);
 
-module.exports = app;
+module.exports = {server, io};

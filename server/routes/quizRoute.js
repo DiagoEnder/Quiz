@@ -8,6 +8,8 @@ const router = express.Router();
 
 router.use('/:quizId/questions', questionRouter)
 
+
+
 router
     .route('/')
     .get(quizController.getAllQuiz)
