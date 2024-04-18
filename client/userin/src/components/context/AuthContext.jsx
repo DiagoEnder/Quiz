@@ -38,6 +38,7 @@ export const AuthProvider = ({ children }) => {
                 userData: userData,
                 isLogin: isLogin,
                 setIsLogin: setIsLogin,
+                token: token,
             }}>
             {children}
         </AuthContext.Provider>

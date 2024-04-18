@@ -11,7 +11,7 @@ process.on('uncaughtException', err => {
 })
 
 
-const {server, io} = require('./app');
+const { server, io } = require('./app');
 
 
 const DB = process.env.DATABASE.replace(
@@ -37,7 +37,7 @@ server.listen(port, () => {
 
 io.on('connection', (socket) => {
   console.log(`User Connected: ${socket.id}`)
-  
+
   socket.on('createRoom', () => {
     console.log(`Room created: ${socket.room}`)
   })
