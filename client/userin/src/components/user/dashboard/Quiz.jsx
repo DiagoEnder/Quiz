@@ -24,8 +24,8 @@ function Quiz({ duration, name, subject, imageCover, grades, _id }) {
                             <svg width={20} height={20}>
                                 <use xlinkHref="#clock" className="text-black-50" />
                             </svg>
-                            <p className="text-black-50 fw-bold text-uppercase m-0">
-                                {duration}M
+                            <p className="text-black-50 fw-bold m-0">
+                                {duration}s/ question
                             </p>
                         </div>
                     </div>
