@@ -14,27 +14,40 @@ const roomSchema = new mongoose.Schema({
     },
     
     players: [{
-        type: String,
-        required: true
+        
+        id: String,
+        name: String,
+        result: {
+            type: Number,
+            default: 0
+        }
+          
     }],
     
     quizId: {
         type: mongoose.Types.ObjectId,
-        ref: 'quiz',
+        ref: 'Quiz',
         require: true
         
     },
     
-
+    questions:[{
+        type: mongoose.Types.ObjectId,
+        ref: 'Question',
+        
+    }],
+    
     status: {
         type: String,
         enum: ['pending', 'started', 'finished'],
         default: 'pending'
-    }
+    },
         
-    
+   
     
 }, {timestamps: true})
+
+
 
 
 
