@@ -7,7 +7,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cors = require('cors');
 const http = require('http');
-
+const socket = require('socket.io')
 
 
 const AppError = require('./utils/appError');
@@ -19,7 +19,7 @@ const roomRouter = require('./routes/roomRouter')
 
 const app = express();
 
-const {Server} = require('socket.io');
+const {Server} = socket;
 app.use(cors());
 
 const server = http.createServer(app);

@@ -41,14 +41,9 @@ io.on('connection', (socket) => {
   socket.on('createRoom', () => {
     console.log(`Room created: ${socket.room}`)
   })
+  
+  
 })
-//setupSOcket
-// const io = require('socket.io')(server, {
-//   cors: {
-//     origin: '*',
-//   },
-// });
-
 
 
 process.on('unhandledRejection', err => {
