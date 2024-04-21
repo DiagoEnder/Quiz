@@ -7,6 +7,14 @@ function MainWaiting() {
     return (
         <>
             {/* <img src={x} alt="" style={}/> */}
+            <div className="" style={{ position: 'absolute', top: '40px', left: '40px' }}>
+                <button className='btn-start'>
+                    <span className="shadow" />
+                    <span className="edge" />
+                    <span className="front text"> Exit</span>
+                </button>
+
+            </div>
             <div className="container-fluid" style={{ backgroundImage: `url(${x})`, height: '100vh' }}>
                 <div className="row">
                     <h1 className='text-center text-white'>Đây là tên của bộ câu hỏi</h1>

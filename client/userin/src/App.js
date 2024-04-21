@@ -7,12 +7,14 @@ import HomeUser from './components/user/home/HomeUser';
 import LayoutHome from './components/user/layout/LayoutHome';
 import DetailQuiz from './components/user/dashboard/DetailQuiz';
 import MainWaiting from './components/user/WaitingRoom/MainWaiting';
+import Game from './components/user/game/Game';
 function App() {
   const { isLogin } = useAuth()
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
+          <Route path='/' element = {<Navigate to="/home"/>}/>
           <Route path='/auth' element={isLogin ? <LayoutHome /> : <ParentAuth />}></Route>
           <Route path='/home' element={<LayoutHome />}>
             <Route index element={<HomeUser/>}/>
@@ -20,6 +22,7 @@ function App() {
             <Route path='quiz/:id' element = {<DetailQuiz/>}/>
           </Route>
           <Route path='/waiting' element = {<MainWaiting/>}></Route>
+          <Route path='/game' element = {<Game/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>

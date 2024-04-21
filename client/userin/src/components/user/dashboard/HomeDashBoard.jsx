@@ -2,11 +2,27 @@ import React, { useEffect, useState } from 'react'
 import { GetAllQuiz } from '../../../api/quiz'
 import Spinner from 'react-bootstrap/Spinner';
 import Quiz from './Quiz';
+import CreateQuiz from './CreateQuiz';
 
 function HomeDashBoard() {
     const [dataQuiz, setDataQuiz] = useState([])
     const [load, setLoad] = useState(false)
     const [isError, setIsError] = useState(false)
+    const FetchingData = () => {
+        setLoad(true)
+        GetAllQuiz()
+            .then(res => {
+                console.log(res.data.data)
+                setDataQuiz(res.data.data)
+                setLoad(false)
+                setIsError(false)
+            })
+            .catch(err => {
+                console.log(err)
+                setLoad(false)
+                setIsError(true)
+            })
+    }
     useEffect(() => {
         setLoad(true)
         GetAllQuiz()
@@ -30,6 +46,7 @@ function HomeDashBoard() {
                     <h2 className="display-6 fw-semibold">
                         Explore Inspiring Online Courses
                     </h2>
+                    <CreateQuiz FetchingData={FetchingData} />
                 </div>
                 <div className="row">
                     {
@@ -41,7 +58,7 @@ function HomeDashBoard() {
                                 :
                                 dataQuiz.length > 0 ?
                                     dataQuiz.map(item => (
-                                        <Quiz duration={item.duration} name={item.name} _id={item._id} grades={item.grades} subject={item.subject} imageCover={item.imageCover} />
+                                        <Quiz FetchingData={FetchingData} duration={item.duration} name={item.name} _id={item._id} id_User={item.user} grades={item.grades} subject={item.subject} imageCover={item.imageCover} />
                                     ))
                                     : <h1>Không có dữ liệu</h1>
                     }

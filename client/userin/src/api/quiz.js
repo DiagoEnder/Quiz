@@ -17,3 +17,15 @@ export const GetDetailQuiz = async ({ _id, token }) => {
     })
     return data
 }
+
+export const AddQuiz = async ({ name, grades, subject, imageCover, token }) => {
+    const { data } = await axios.post(`${BASE_URL}/api/v1/quiz/`, { name, grades, subject, imageCover }, {
+        headers: {
+            "Content-Type": "Application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    })
+    return data
+}
+
+// export const UpdateQuiz = async ({})

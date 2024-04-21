@@ -15,9 +15,7 @@
 }
 
 .btn-player:hover {
-    border: 1px solid #f3b182;
-    background: linear-gradient( 85deg, #fec195, #fcc196, #fabd92, #fac097, #fac39c);
-    animation: wind 2s ease-in-out infinite;
+    /* background: #d72631 */
 }
 
 @keyframes wind {

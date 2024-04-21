@@ -1,7 +1,11 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
+import UpdateQuiz from './UpdateQuiz'
 
-function Quiz({ duration, name, subject, imageCover, grades, _id }) {
+function Quiz({ duration, name, subject, imageCover, grades, _id, id_User, FetchingData }) {
+    const { userData } = useAuth()
+    console.log(userData._id + " = " + id_User)
     return (
         <div className="col-sm-6 col-lg-4 col-xl-3 mb-5">
             <div className="z-1 position-absolute m-4">
@@ -10,7 +14,7 @@ function Quiz({ duration, name, subject, imageCover, grades, _id }) {
             <div className="card rounded-4 border-0 shadow-sm p-3 position-relative">
                 <NavLink to={`/home/quiz/${_id}`}>
                     <img
-                        src={`${imageCover !== '' ? 'https://themewagon.github.io/jubilee/images/item2.jpg' : 'https://themewagon.github.io/jubilee/images/item2.jpg'}`}
+                        src={`${imageCover || 'https://themewagon.github.io/jubilee/images/item2.jpg'}`}
                         className="img-fluid rounded-3"
                         alt="image"
                     />
@@ -37,7 +41,9 @@ function Quiz({ duration, name, subject, imageCover, grades, _id }) {
                     <div className="card-text">
                         <span className="rating d-flex align-items-center mt-3">
                             <p className="text-muted fw-semibold m-0 me-2">
-                                By: James Willam
+                                By: James Willam {userData._id === id_User &&
+                                    <UpdateQuiz FetchingData={FetchingData} />
+                                }
                             </p>
                             <iconify-icon
                                 icon="clarity:star-solid"
