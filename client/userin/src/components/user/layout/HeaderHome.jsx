@@ -14,6 +14,9 @@ function HeaderHome() {
     const handleClickSignIn = () => {
         navigate('/auth')
     }
+    const handleClickDashBoard = () => {
+        navigate('/home/dashboard')
+    }
     useEffect(() => {
         console.log(userData)
     }, [])
@@ -23,7 +26,7 @@ function HeaderHome() {
     return (
         <Navbar expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
             <Container>
-                <Navbar.Brand href="#home">QuiZZ</Navbar.Brand>
+                <Navbar.Brand onClick={() => { navigate('/home') }}>QuiZZ</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
@@ -41,7 +44,7 @@ function HeaderHome() {
                         </NavDropdown>
                         {
                             isLogin && userData &&
-                            <Button variant="secondary" size="lg" >
+                            <Button variant="secondary" size="lg" onClick={handleClickDashBoard}>
                                 {userData.name} dashboard
                             </Button>
                         }
@@ -55,7 +58,6 @@ function HeaderHome() {
                                     Sign In
                                 </Button>
                         }
-
                     </Nav>
                 </Navbar.Collapse>
             </Container>
