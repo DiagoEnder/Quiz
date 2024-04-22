@@ -2,10 +2,10 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import UpdateQuiz from './UpdateQuiz'
+import DeleteQuiz from './DeleteQuiz'
 
 function Quiz({ duration, name, subject, imageCover, grades, _id, id_User, FetchingData }) {
     const { userData } = useAuth()
-    console.log(userData._id + " = " + id_User)
     return (
         <div className="col-sm-6 col-lg-4 col-xl-3 mb-5">
             <div className="z-1 position-absolute m-4">
@@ -40,10 +40,8 @@ function Quiz({ duration, name, subject, imageCover, grades, _id, id_User, Fetch
                     </NavLink>
                     <div className="card-text">
                         <span className="rating d-flex align-items-center mt-3">
-                            <p className="text-muted fw-semibold m-0 me-2">
-                                By: James Willam {userData._id === id_User &&
-                                    <UpdateQuiz FetchingData={FetchingData} />
-                                }
+                            <p className="text-muted fw-semibold m-0 me-2" style={{ display: 'block' }}>
+                                By: James Willam
                             </p>
                             <iconify-icon
                                 icon="clarity:star-solid"
@@ -66,6 +64,12 @@ function Quiz({ duration, name, subject, imageCover, grades, _id, id_User, Fetch
                                 className="text-primary"
                             />
                         </span>
+                        {userData._id === id_User &&
+                            <>
+                                <UpdateQuiz name={name} _id={_id} subject={subject} grades={grades} imageCover={imageCover} FetchingData={FetchingData} />
+                                <DeleteQuiz _id={_id} FetchingData={FetchingData} />
+                            </>
+                        }
                     </div>
                 </div>
             </div>

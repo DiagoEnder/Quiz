@@ -28,4 +28,21 @@ export const AddQuiz = async ({ name, grades, subject, imageCover, token }) => {
     return data
 }
 
-// export const UpdateQuiz = async ({})
+export const PatChQuiz = async ({ name, _id, grades, subject, imageCover, token }) => {
+    const { data } = await axios.patch(`${BASE_URL}/api/v1/quiz/${_id}`, { name, grades, subject, imageCover }, {
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        }
+    });
+    return data;
+};
+
+export const RemoveQuiz = async ({ _id, token }) => {
+    const { data } = await axios.delete(`${BASE_URL}/api/v1/quiz/${_id}`, {
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })
+    return data
+}
