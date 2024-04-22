@@ -27,7 +27,6 @@ function HomeDashBoard() {
         setLoad(true)
         GetAllQuiz()
             .then(res => {
-                console.log(res.data.data)
                 setDataQuiz(res.data.data)
                 setLoad(false)
                 setIsError(false)
@@ -62,68 +61,6 @@ function HomeDashBoard() {
                                     ))
                                     : <h1>Không có dữ liệu</h1>
                     }
-
-                    <div className="col-sm-6 col-lg-4 col-xl-3 mb-5">
-                        <div className="z-1 position-absolute m-4">
-                            <span className="badge text-white bg-secondary">Sale</span>
-                        </div>
-                        <div className="card rounded-4 border-0 shadow-sm p-3 position-relative">
-                            <a href="courses-details.html">
-                                <img
-                                    src="https://themewagon.github.io/jubilee/images/item2.jpg"
-                                    className="img-fluid rounded-3"
-                                    alt="image"
-                                />
-                            </a>
-                            <div className="card-body p-0">
-                                <div className="d-flex justify-content-between my-3">
-                                    <p className="text-black-50 fw-bold text-uppercase m-0">
-                                        Digital Marketing
-                                    </p>
-                                    <div className="d-flex align-items-center">
-                                        <svg width={20} height={20}>
-                                            <use xlinkHref="#clock" className="text-black-50" />
-                                        </svg>
-                                        <p className="text-black-50 fw-bold text-uppercase m-0">
-                                            1h 50m
-                                        </p>
-                                    </div>
-                                </div>
-                                <a href="courses-details.html">
-                                    <h5 className="course-title py-2 m-0">
-                                        CyberClass 101: A Guide to Online Education
-                                    </h5>
-                                </a>
-                                <div className="card-text">
-                                    <span className="rating d-flex align-items-center mt-3">
-                                        <p className="text-muted fw-semibold m-0 me-2">
-                                            By: James Willam
-                                        </p>
-                                        <iconify-icon
-                                            icon="clarity:star-solid"
-                                            className="text-primary"
-                                        />
-                                        <iconify-icon
-                                            icon="clarity:star-solid"
-                                            className="text-primary"
-                                        />
-                                        <iconify-icon
-                                            icon="clarity:star-solid"
-                                            className="text-primary"
-                                        />
-                                        <iconify-icon
-                                            icon="clarity:star-solid"
-                                            className="text-primary"
-                                        />
-                                        <iconify-icon
-                                            icon="clarity:star-solid"
-                                            className="text-primary"
-                                        />
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div className="text-center mt-4">
                     <a href="courses.html" className="btn btn-primary px-5 py-3">
