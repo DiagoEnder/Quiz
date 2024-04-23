@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Player from './Player'
 import '../../../assets/css/waiting.css'
-import { GetCurrentRoom } from '../../../api/room'
+import { GetCurrentRoom, leaveRoom } from '../../../api/room'
 import { useAuth } from '../../context/AuthContext'
 import io from 'socket.io-client'
 import { useNavigate } from 'react-router-dom'
@@ -10,15 +10,31 @@ import { message } from 'antd'
 const socket = io.connect(process.env.REACT_APP_BASE_URL)
 
 function MainWaiting() {
-    const { token, isJoinRoom } = useAuth()
-    const { dataRoom, setDataRoom } = useState()
+    const { token, isJoinRoom, userData } = useAuth()
+    const { dataRoom, setDataRoom, setIsJoinRoom } = useState()
     const [needFetching, setNeedFetching] = useState(false)
     const [listPlayer, setListPlayer] = useState([])
+    const [iDRoom, setIDRoom] = useState()
     const navigate = useNavigate()
+    const handleLeaveRoom = () => {
+        leaveRoom({ IdPlayer: `${userData ? userData._id : localStorage.getItem("_idUser")}`, IdRoom: iDRoom })
+            .then(res => {
+                socket.emit("leaveroom", { nameUser: localStorage.getItem("name"), codeRoom: parseInt(localStorage.getItem("codeRoom")) })
+                // localStorage.removeItem("codeRoom");
+                // localStorage.removeItem("name");
+                // localStorage.removeItem("_idUser");
+                // setIsJoinRoom(false)
+                navigate('/home')
+                // console.log(res.data)
+            })
+            .catch(err => console.log(err))
+    }
     let x = "https://act.hoyoverse.com/puzzle/upload/puzzle/2022/06/19/d05fd5736eaf5de2f119c1db55083e82_1721200333785918187.jpg"
     const fetchingRoom = () => {
         GetCurrentRoom({ codeRoom: 8968, token })
             .then(res => {
+                console.log(res.data.data.players)
+                setIDRoom(res.data.data._id)
                 setListPlayer(res.data.data.players)
                 socket.emit("joinroom", {
                     nameUser: localStorage.getItem("name"),
@@ -46,7 +62,6 @@ function MainWaiting() {
         }
     }, [])
     useEffect(() => {
-        fetchingRoom()
         socket.on("messagejoined", (data) => {
             setNeedFetching(true)
         })
@@ -58,7 +73,7 @@ function MainWaiting() {
                 <button className='btn-start'>
                     <span className="shadow" />
                     <span className="edge" />
-                    <span className="front text"> Exit</span>
+                    <span className="front text" onClick={handleLeaveRoom}> Exit</span>
                 </button>
 
             </div>

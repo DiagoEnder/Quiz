@@ -33,11 +33,11 @@ function HomeUser() {
                     else {
                         joinRoom({ codeRoom: roomId, nameUser: userData.name })
                             .then(res => {
-                                console.log(res.data)
                                 setIsJoinRoom(true)
                                 navigative('/waiting')
                                 localStorage.setItem("codeRoom", parseInt(roomId))
                                 localStorage.setItem("name", userData.name)
+                                localStorage.setItem("_idUser", res.data.data.players[res.data.data.players.length - 1]._id)
                             })
                             .catch(err => console.log(err))
                     }
@@ -60,12 +60,12 @@ function HomeUser() {
         else {
             joinRoom({ codeRoom: roomId, nameUser: name })
                 .then(res => {
-                    console.log(res.data)
                     setIsJoinRoom(true)
                     navigative('/waiting')
                     socket.emit("joinroom", { nameUser: localStorage.getItem("name"), codeRoom: parseInt(localStorage.getItem("codeRoom")) })
                     localStorage.setItem("codeRoom", parseInt(roomId))
-                    localStorage.setItem("name", userData.name)
+                    localStorage.setItem("name", name)
+                    localStorage.setItem("_idUser", res.data.data.players[res.data.data.players.length - 1]._id)
                 })
                 .catch(err => console.log(err))
         }

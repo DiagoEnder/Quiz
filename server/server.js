@@ -53,6 +53,12 @@ io.on('connection', (socket) => {
     console.log(`Room joined: ${data.codeRoom} + ${data.nameUser}`)
     io.to(data.codeRoom).emit('messagejoined', `${data.nameUser} has join the game`)
   })
+
+  socket.on('leaveroom', (data) => {
+    socket.join(data.codeRoom)
+    console.log(`Room joined: ${data.codeRoom} + ${data.nameUser}`)
+    io.to(data.codeRoom).emit('messagejoined', `${data.nameUser} has join the game`)
+  })
   //
   socket.on('asknewquestion', async (codeRoom, indexQuestion) => {
     try {

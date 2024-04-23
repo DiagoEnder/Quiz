@@ -14,19 +14,20 @@ import GameTest from './components/test/GameTest';
 import MainWaitingTest from './components/test/MainWaitingTest';
 function App() {
   const { isLogin, isJoinRoom } = useAuth()
+  let codeRoom = localStorage.getItem("codeRoom")
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
           <Route path='/' element = {<Navigate to={`${ "/waiting"}`}/>}/>
           <Route path='/auth' element={isLogin ? <LayoutHome /> : <ParentAuth />}></Route>
-          <Route path='/home' element={<LayoutHome />}>
+          <Route path='/home' element={!codeRoom ? <LayoutHome />: <Navigate to={`${ "/waiting"}`}/>}>
             <Route index element={<HomeUser/>}/>
             <Route path='dashboard' element={<HomeDashBoard/>}></Route>
             <Route path='quiz/:id' element = {<DetailQuiz/>}/>
           </Route>
           {/* <Route path='/waiting' element = {isJoinRoom ? <MainWaiting/>: <Navigate to="/home"/>}></Route> */}
-          <Route path='/waiting' element = { <MainWaiting/>}></Route>
+          <Route path='/waiting' element = { codeRoom ? <MainWaiting/>: <Navigate to={`${ "/home"}`}/>}></Route>
           <Route path='/game' element = {<Game/>}></Route>
           
 
