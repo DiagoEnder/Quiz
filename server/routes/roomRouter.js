@@ -6,7 +6,7 @@ const roomController = require('./../controllers/roomController')
 const router = express.Router();
 
 router
-    .route('/enterRoom/:roomId')
+    .route('/checkexist')
     .post(
         roomController.checkExistRoom
     )

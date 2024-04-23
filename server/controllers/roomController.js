@@ -93,9 +93,9 @@ exports.deleteRoom = catchAsync(async (req, res, next) => {
 })
 
 exports.checkExistRoom = catchAsync(async (req,res, next) => {
-    const codeRoom = req.params.roomId
-    
-    const room = await Room.findOne({IdRoom: codeRoom})
+    const {codeRoom} = req.body
+    console.log(codeRoom)
+    const room = await Room.findOne({IdRoom: codeRoom}).populate('quizId').populate('owner')
     
     if(!room) {
         return next(new AppError('Room not found', 404))
@@ -122,6 +122,7 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
     const {codeRoom} = req.body
     const {nameUser} = req.body
 
+    console.log(`da vao server: ${nameUser} va vao server: ${codeRoom}`)
    const val = Math.round(1000 + Math.random() *9000).toString()
    const user = {
     name: nameUser,
@@ -239,7 +240,7 @@ exports.kickPlayer = catchAsync(async (req, res, next) => {
 exports.startRoom = catchAsync(async (req,res,next) => {
     const {IdRoom, Idowner} = req.body
     const {quizId} = req.params
-    
+    console.log(`quiz + ${quizId}, Idroom + ${IdRoom}, Idowner + ${Idowner} `)
     const room = await Room.findById(IdRoom)
     
     if(room.owner._id.toString()!== Idowner) {
@@ -261,7 +262,8 @@ exports.startRoom = catchAsync(async (req,res,next) => {
     }
     
     const updateRoom = await Room.findByIdAndUpdate(IdRoom, {
-        $push: {questions: question}
+        // $push: {questions: question},
+        // status: 'started'
     }, {new: true}).populate('questions')
     
     if(!updateRoom) {

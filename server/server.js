@@ -12,7 +12,7 @@ process.on('uncaughtException', err => {
 
 
 const { server, io } = require('./app');
-
+const {askNewQuestion} = require('./socketQuiz/newQuestion')
 
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
@@ -40,6 +40,27 @@ io.on('connection', (socket) => {
 
   socket.on('createRoom', () => {
     console.log(`Room created: ${socket.room}`)
+  })
+  
+  socket.on('joinroom', (nameUser, codeRoom) => {
+    socket.join(codeRoom)
+    console.log(`Room joined: ${codeRoom} + ${nameUser}`)
+    io.to(codeRoom).emit('messagejoined', `${nameUser} has join the game`)
+  })
+  
+  socket.on('asknewquestion', async (codeRoom, indexQuestion) => {
+    try {
+    
+      const data = await askNewQuestion({codeRoom, indexQuestion})
+      console.log(`ngoài fucntion quesiton ${data} `)
+      // socket.to(codeRoom).emit('newQuestion', data)
+      io.to(codeRoom).emit('newQuestion',data)
+    }
+    catch (err) {
+      console.error('Error fetching data from API:', err);
+      socket.emit('apiError', err.message); // Gửi thông báo lỗi đến client nếu có lỗi xảy ra
+    }
+    
   })
   
   

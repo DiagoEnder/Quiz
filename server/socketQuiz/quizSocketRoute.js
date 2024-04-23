@@ -181,7 +181,7 @@ const handleQuiz = (io) => {
       ];
     
     const rooms ={};
-    
+                                                                                                                  
     function askNewQuestion (room,ios) {
         if(rooms[room].players.length === 0) {
             clearTimeout(rooms[room].questionTimeout);
@@ -214,7 +214,7 @@ const handleQuiz = (io) => {
               })),
             });
         
-            askNewQuestion(room);
+            askNewQuestion(room,ios);
           }, 10000);
         
         
