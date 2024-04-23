@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { checkExistRoom } from '../../../api/room';
+import { checkExistRoom, joinRoom } from '../../../api/room';
 import { message } from 'antd'
+import io from 'socket.io-client'
+
+const socket = io.connect(process.env.REACT_APP_BASE_URL)
 
 function HomeUser() {
     const [show, setShow] = useState(false);
@@ -16,31 +19,38 @@ function HomeUser() {
     const handleShow = () => setShow(true);
     const navigative = useNavigate()
     const { setIsJoinRoom } = useAuth()
+
     const HandleClickJoin = () => {
-        if (!userData) {
-            handleShow()
+        if (!roomId) {
+            alert('Please enter Code Room')
         }
         else {
-            if (!roomId) {
-                alert('Please enter room Id')
-            }
-            else {
-                checkExistRoom({ codeRoom: roomId })
-                    .then(res => {
-                        alert('OK')
-                        setIsJoinRoom(true)
-                        navigative('/waiting')
-                    })
-                    .catch(err => {
-                        if (err.response) {
-                            message.error(err.response.data.message)
-                        }
-                        else {
-                            message.error("undefined error")
-                        }
-                    })
-                // navigative('/waiting')
-            }
+            checkExistRoom({ codeRoom: roomId })
+                .then(res => {
+                    if (!userData) {
+                        handleShow()
+                    }
+                    else {
+                        joinRoom({ codeRoom: roomId, nameUser: userData.name })
+                            .then(res => {
+                                console.log(res.data)
+                                setIsJoinRoom(true)
+                                navigative('/waiting')
+                                localStorage.setItem("codeRoom", parseInt(roomId))
+                                localStorage.setItem("name", userData.name)
+                            })
+                            .catch(err => console.log(err))
+                    }
+                })
+                .catch(err => {
+                    if (err.response) {
+                        message.error(err.response.data.message)
+                    }
+                    else {
+                        message.error("undefined error")
+                    }
+                })
+            // navigative('/waiting')
         }
     }
     const handleContinue = () => {
@@ -48,8 +58,16 @@ function HomeUser() {
             alert('please enter your name')
         }
         else {
-            alert('join room')
-            navigative('/waiting')
+            joinRoom({ codeRoom: roomId, nameUser: name })
+                .then(res => {
+                    console.log(res.data)
+                    setIsJoinRoom(true)
+                    navigative('/waiting')
+                    socket.emit("joinroom", { nameUser: localStorage.getItem("name"), codeRoom: parseInt(localStorage.getItem("codeRoom")) })
+                    localStorage.setItem("codeRoom", parseInt(roomId))
+                    localStorage.setItem("name", userData.name)
+                })
+                .catch(err => console.log(err))
         }
     }
     return (

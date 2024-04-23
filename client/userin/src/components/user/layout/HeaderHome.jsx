@@ -15,7 +15,7 @@ function HeaderHome() {
         navigate('/auth')
     }
     const handleClickDashBoard = () => {
-        navigate('/home/dashboardtest')
+        navigate('/home/dashboard')
     }
     useEffect(() => {
         console.log(userData)

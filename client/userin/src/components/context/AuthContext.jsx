@@ -26,6 +26,9 @@ export const AuthProvider = ({ children }) => {
             setToken(userToken)
             setUserData(user)
             setIsLogin(true)
+            if (localStorage.getItem("codeRoom")) {
+                setIsJoinRoom(true)
+            }
         }
         else {
             setIsLogin(false)

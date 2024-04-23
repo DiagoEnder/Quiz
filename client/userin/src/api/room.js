@@ -79,7 +79,7 @@ export const GetCurrentRoom = async ({ codeRoom, token }) => {
     const { data } = await axios.get(`${BASE_URL}/api/v1/live/fetchroom?codeRoom=${8968}`, {
         headers: {
             "Content-Type": "Application/json",
-            "Authorization": `Bearer ${token}`
+            // "Authorization": `Bearer ${token}`
         }
     })
     // alert
