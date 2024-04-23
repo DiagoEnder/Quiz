@@ -5,17 +5,17 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
-import { useAuth } from '../../context/AuthContext';
-import { useNavigate } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-function HeaderHome() {
+function HeaderHomeTest() {
     const { logout, userData, isLogin } = useAuth()
     const navigate = useNavigate();
     const handleClickSignIn = () => {
         navigate('/auth')
     }
     const handleClickDashBoard = () => {
-        navigate('/home/dashboardtest')
+        navigate('/home/dashboard')
     }
     useEffect(() => {
         console.log(userData)
@@ -26,7 +26,7 @@ function HeaderHome() {
     return (
         <Navbar expand="lg" className="bg-body-tertiary" bg="dark" data-bs-theme="dark">
             <Container>
-                <Navbar.Brand onClick={() => { navigate('/home') }}>QuiZZ</Navbar.Brand>
+                <Navbar.Brand onClick={() => { navigate('/hometest') }}>QuiZZ</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
@@ -65,4 +65,4 @@ function HeaderHome() {
     )
 }
 
-export default HeaderHome
+export default HeaderHomeTest

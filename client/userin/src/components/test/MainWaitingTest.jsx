@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
-import Player from './Player'
-import '../../../assets/css/waiting.css'
-import { GetCurrentRoom } from '../../../api/room'
-import { useAuth } from '../../context/AuthContext'
+import { GetCurrentRoom } from '../../api/room'
+import { useAuth } from '../context/AuthContext'
+import Player from '../user/WaitingRoom/Player'
 
-function MainWaiting() {
+function MainWaitingTest() {
     const { token } = useAuth()
     let x = "https://act.hoyoverse.com/puzzle/upload/puzzle/2022/06/19/d05fd5736eaf5de2f119c1db55083e82_1721200333785918187.jpg"
     const fetchingRoom = () => {
@@ -87,4 +86,4 @@ function MainWaiting() {
     )
 }
 
-export default MainWaiting
+export default MainWaitingTest

@@ -1,13 +1,12 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react'
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { checkExistRoom } from '../../api/room';
+import { message } from 'antd';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { useAuth } from '../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { checkExistRoom } from '../../../api/room';
-import { message } from 'antd'
 
-function HomeUser() {
+function HomeUserTest() {
     const [show, setShow] = useState(false);
     const [name, setName] = useState('')
     const [roomId, setRoomId] = useState()
@@ -29,7 +28,7 @@ function HomeUser() {
                     .then(res => {
                         alert('OK')
                         setIsJoinRoom(true)
-                        navigative('/waiting')
+                        navigative('/waitingtest')
                     })
                     .catch(err => {
                         if (err.response) {
@@ -93,4 +92,4 @@ function HomeUser() {
     )
 }
 
-export default HomeUser
+export default HomeUserTest

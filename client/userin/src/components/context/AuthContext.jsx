@@ -7,6 +7,7 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(null)
     const [userData, setUserData] = useState(null)
     const [isLogin, setIsLogin] = useState(false)
+    const [isJoinRoom, setIsJoinRoom] = useState(false)
     const storedData = JSON.parse(localStorage.getItem('user_data'))
     const login = (newToken, newData) => {
         localStorage.setItem("user_data", JSON.stringify({ userToken: newToken, user: newData }))
@@ -39,6 +40,8 @@ export const AuthProvider = ({ children }) => {
                 isLogin: isLogin,
                 setIsLogin: setIsLogin,
                 token: token,
+                isJoinRoom: isJoinRoom,
+                setIsJoinRoom: setIsJoinRoom
             }}>
             {children}
         </AuthContext.Provider>
