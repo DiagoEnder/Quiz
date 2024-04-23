@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { GetAllQuiz } from '../../../api/quiz'
 import Spinner from 'react-bootstrap/Spinner';
-import Quiz from './Quiz';
-import CreateQuiz from './CreateQuiz';
+import Quiz from './Quiz/Quiz';
+import CreateQuiz from './Quiz/CreateQuiz';
 
 function HomeDashBoard() {
     const [dataQuiz, setDataQuiz] = useState([])

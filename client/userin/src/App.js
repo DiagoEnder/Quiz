@@ -5,9 +5,9 @@ import { useAuth } from './components/context/AuthContext';
 import HomeDashBoard from './components/user/dashboard/HomeDashBoard';
 import HomeUser from './components/user/home/HomeUser';
 import LayoutHome from './components/user/layout/LayoutHome';
-import DetailQuiz from './components/user/dashboard/DetailQuiz';
 import MainWaiting from './components/user/WaitingRoom/MainWaiting';
 import Game from './components/user/game/Game';
+import DetailQuiz from './components/user/dashboard/Quiz/DetailQuiz';
 function App() {
   const { isLogin } = useAuth()
   return (

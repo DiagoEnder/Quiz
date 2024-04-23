@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { RemoveQuiz } from '../../../api/quiz';
-import { useAuth } from '../../context/AuthContext';
+import { RemoveQuiz } from '../../../../api/quiz';
+import { useAuth } from '../../../context/AuthContext';
 
 function DeleteQuiz({ _id, FetchingData }) {
     const [show, setShow] = useState(false);

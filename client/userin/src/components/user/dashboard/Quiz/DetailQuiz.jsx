@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom';
-import { GetDetailQuiz } from '../../../api/quiz';
-import { useAuth } from '../../context/AuthContext';
+import { GetDetailQuiz } from '../../../../api/quiz';
+import { useAuth } from '../../../context/AuthContext';
 import { useState } from 'react';
-import QuestionDS from './QuestionDS';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import QuestionDS from '../Question/QuestionDS';
+import CreateQuestion from '../Question/CreateQuestion';
 
 function DetailQuiz() {
     const { id } = useParams();
@@ -28,6 +29,7 @@ function DetailQuiz() {
                 <div className="col">
                     <button className='btn btn-info' style={{ padding: '0 6px' }}>Start Live</button>
                 </div>
+                <CreateQuestion _id={id} />
             </div>
             <div className="row">
                 {

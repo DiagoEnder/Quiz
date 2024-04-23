@@ -1,36 +1,32 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+import { useAuth } from '../../../context/AuthContext';
 import Spinner from 'react-bootstrap/esm/Spinner';
-import { AddQuiz } from '../../../api/quiz';
-import { useAuth } from '../../context/AuthContext';
+import { PatChQuiz } from '../../../../api/quiz';
 
-function CreateQuiz({ FetchingData }) {
+function UpdateQuiz({ FetchingData, name, subject, imageCover, grades, _id }) {
     const [show, setShow] = useState(false);
-    const [name, setName] = useState('')
-    const [grades, setGrades] = useState('1st')
-    const [subject, setSubject] = useState('English')
-    const [imageCover, setImgCover] = useState('')
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const [nameUD, setNameUD] = useState(name)
+    const [gradesUD, setGradesUD] = useState(grades)
+    const [subjectUD, setSubjectUD] = useState(subject)
+    const [imageCoverUD, setImgCoverUD] = useState(imageCover)
     const [load, setLoad] = useState(false)
     const { token } = useAuth()
     const [err, setErr] = useState('')
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const handleAddClick = () => {
+
+    const handleUpdateClick = () => {
         setLoad(true)
-        AddQuiz({ name: name, grades: grades, subject: subject, imageCover: imageCover, token: token })
+        PatChQuiz({ name: nameUD, _id: _id, grades: gradesUD, subject: subjectUD, imageCover: imageCoverUD, token: token })
             .then(res => {
-                console.log(res.data)
-                FetchingData()
-                setErr('')
-                setShow(false)
-                setName('')
                 setLoad(false)
-                setGrades('1st')
-                setSubject("English")
-                setImgCover('')
+                FetchingData()
             })
             .catch(err => {
                 setLoad(false)
@@ -46,7 +42,7 @@ function CreateQuiz({ FetchingData }) {
     const handleChangeImage = (e) => {
         if (e.target.files[0]) {
             setLoad(true)
-            setImgCover(e.target.files[0])
+            setImgCoverUD(e.target.files[0])
             const showImg = document.querySelector('#img-showback')
             showImg.src = URL.createObjectURL(e.target.files[0])
 
@@ -60,7 +56,7 @@ function CreateQuiz({ FetchingData }) {
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    setImgCover(data.url.toString())
+                    setImgCoverUD(data.url.toString())
                     setLoad(false)
                 })
                 .catch((err) => {
@@ -72,7 +68,7 @@ function CreateQuiz({ FetchingData }) {
     return (
         <>
             <Button variant="primary" onClick={handleShow}>
-                Launch static backdrop modal
+                Update
             </Button>
 
             <Modal
@@ -82,7 +78,7 @@ function CreateQuiz({ FetchingData }) {
                 keyboard={false}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal Add</Modal.Title>
+                    <Modal.Title>Modal Update</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form style={{ display: 'block', padding: 0 }}>
@@ -90,13 +86,13 @@ function CreateQuiz({ FetchingData }) {
                             <label htmlFor="recipient-name" className="col-form-label">
                                 Name:
                             </label>
-                            <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} id="recipient-name" />
+                            <input type="text" className="form-control" value={nameUD} onChange={(e) => setNameUD(e.target.value)} id="recipient-name" />
                         </div>
                         <div className="form-group">
                             <label htmlFor="message-text" className="col-form-label">
                                 Grades:
                             </label>
-                            <select class="form-control" value={grades} onChange={(e) => setGrades(e.target.value)}>
+                            <select class="form-control" value={gradesUD} onChange={(e) => setGradesUD(e.target.value)}>
                                 <option>1st</option>
                                 <option>2nd</option>
                                 <option>3rd</option>
@@ -107,7 +103,7 @@ function CreateQuiz({ FetchingData }) {
                             <label htmlFor="recipient-name" className="col-form-label">,
                                 Subject:
                             </label>
-                            <select class="form-control" value={subject} onChange={(e) => setSubject(e.target.value)}>
+                            <select class="form-control" value={subjectUD} onChange={(e) => setSubjectUD(e.target.value)}>
                                 <option>English</option>
                                 <option>Maths</option>
                                 <option>History</option>
@@ -119,7 +115,7 @@ function CreateQuiz({ FetchingData }) {
                                 ImageCover:
                             </label>
                             <div className="d-flex justify-content-between flex-wrap">
-                                <img id='img-showback' style={{ minHeight: '100px', maxHeight: '200px', objectFit: 'cover', maxWidth: '400px' }} src='' alt="s" />
+                                <img id='img-showback' style={{ minHeight: '100px', maxHeight: '200px', objectFit: 'cover', maxWidth: '400px' }} src={imageCover} alt="s" />
                                 <input type="file" onChange={handleChangeImage} required className="form-control file-img" id="" accept='image/*' />
                             </div>
                         </div>
@@ -143,15 +139,15 @@ function CreateQuiz({ FetchingData }) {
                                 </Spinner>
                             </Button>
                             :
-                            <Button variant="primary" type='submit' onClick={handleAddClick}>
-                                Add
+                            <Button variant="primary" type='submit' onClick={handleUpdateClick}>
+                                Update
                             </Button>
 
                     }
                 </Modal.Footer>
             </Modal>
         </>
-    );
+    )
 }
 
-export default CreateQuiz
+export default UpdateQuiz
