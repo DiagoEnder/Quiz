@@ -30,6 +30,11 @@ router.route('/addscore')
             roomController.pushResult
         )
 
+router.route('/fetchroom')
+       .get(
+            
+            roomController.currentRoom
+        )
         
 router.use(authController.protect);
 

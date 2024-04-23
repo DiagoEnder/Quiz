@@ -154,8 +154,8 @@ exports.joinRoom = catchAsync(async (req, res, next) => {
 })
 
 exports.currentRoom = catchAsync(async (req, res, next) => {
-    const {codeRoom} = req.body
-    
+    const {codeRoom} = req.query
+    console.log(codeRoom)
     const room = await Room.findOne({IdRoom: codeRoom}).populate('owner').populate('quizId').populate('questions')
     
     if(!room) {
