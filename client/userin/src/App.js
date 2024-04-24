@@ -19,7 +19,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/' element = {<Navigate to={`${ "/waiting"}`}/>}/>
+          <Route path='/' element = {<Navigate to={`${ "/home"}`}/>}/>
           <Route path='/auth' element={isLogin ? <LayoutHome /> : <ParentAuth />}></Route>
           <Route path='/home' element={!isJoinRoom ? <LayoutHome />: <Navigate to={`${ "/waiting"}`}/>}>
             <Route index element={<HomeUser/>}/>

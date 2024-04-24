@@ -24,6 +24,7 @@ function HomeDashBoard() {
             .then(res => {
                 console.log(res.data.data)
                 setDataQuiz(res.data.data)
+
                 setLoad(false)
                 setIsError(false)
                 const filteredArray = res.data.data.filter(item => item.user === userData._id);
@@ -32,9 +33,9 @@ function HomeDashBoard() {
                 setMyQuiz(filteredArray)
             })
             .catch(err => {
+                // setIsError(true)
                 console.log(err)
                 setLoad(false)
-                setIsError(true)
             })
     }
     useEffect(() => {
@@ -52,7 +53,7 @@ function HomeDashBoard() {
             .catch(err => {
                 console.log(err)
                 setLoad(false)
-                setIsError(true)
+                // setIsError(true)
             })
     }, [])
     return (
@@ -94,7 +95,7 @@ function HomeDashBoard() {
                                             isError ? <h1>Lỗi rồi</h1>
                                                 :
                                                 dataQuiz.length > 0 ?
-                                                    noMyQuiz.map(item => (
+                                                    noMyQuiz && noMyQuiz.map(item => (
                                                         <Quiz FetchingData={FetchingData} duration={item.duration} name={item.name} _id={item._id} id_User={item.user} grades={item.grades} subject={item.subject} imageCover={item.imageCover} />
                                                     ))
                                                     : <h1>Không có dữ liệu</h1>
@@ -111,7 +112,7 @@ function HomeDashBoard() {
                                             isError ? <h1>Lỗi rồi</h1>
                                                 :
                                                 dataQuiz.length > 0 ?
-                                                    myQuiz.map(item => (
+                                                    myQuiz && myQuiz.map(item => (
                                                         <Quiz FetchingData={FetchingData} duration={item.duration} name={item.name} _id={item._id} id_User={item.user} grades={item.grades} subject={item.subject} imageCover={item.imageCover} />
                                                     ))
                                                     : <h1>Không có dữ liệu</h1>

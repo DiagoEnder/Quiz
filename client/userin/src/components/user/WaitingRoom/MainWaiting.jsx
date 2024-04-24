@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Player from './Player'
 import '../../../assets/css/waiting.css'
-import { GetCurrentRoom, leaveRoom } from '../../../api/room'
+import { GetCurrentRoom, leaveRoom, startRoom } from '../../../api/room'
 import { useAuth } from '../../context/AuthContext'
 import io from 'socket.io-client'
 import { useNavigate } from 'react-router-dom'
@@ -17,15 +17,26 @@ function MainWaiting() {
     const [iDRoom, setIDRoom] = useState()
     const [headerRoom, setHeaderRoom] = useState()
     const [isOwner, setIsOwner] = useState(false)
+    const [codeRoom, setCodeRoom] = useState()
+    const handleStartGame = () => {
+        socket.emit("startgame", { codeRoom: codeRoom })
+        startRoom({ _idquiz: headerRoom._id, IdRoom: iDRoom, Idowner: userData._id, token })
+            .then(res => {
+                console.log(res.data)
+            })
+            .catch(err => console.log(err))
+    }
+
     const navigate = useNavigate()
     const handleLeaveRoom = () => {
         leaveRoom({ IdPlayer: `${userData ? userData._id : localStorage.getItem("_idUser")}`, IdRoom: iDRoom })
             .then(res => {
                 socket.emit("leaveroom", { nameUser: localStorage.getItem("name"), codeRoom: parseInt(localStorage.getItem("codeRoom")) })
-                // localStorage.removeItem("codeRoom");
-                // localStorage.removeItem("name");
-                // localStorage.removeItem("_idUser");
-                // setIsJoinRoom(false)
+                localStorage.removeItem("codeRoom");
+                localStorage.removeItem("name");
+                localStorage.removeItem("_idUser");
+                setIsJoinRoom(false)
+
                 navigate('/home')
                 // console.log(res.data)
             })
@@ -38,8 +49,16 @@ function MainWaiting() {
                 setHeaderRoom(res.data.data.quizId)
                 console.log(res.data.data)
                 setIDRoom(res.data.data._id)
-                if (res.data.data.owner._id === userData._id) {
-                    setIsOwner(true)
+                setCodeRoom(res.data.data.IdRoom)
+                if (userData) {
+                    if (res.data.data.owner._id === userData._id) {
+                        setIsOwner(true)
+                    }
+                }
+                else {
+                    if (res.data.data.owner._id === localStorage.getItem("_idUser")) {
+                        setIsOwner(true)
+                    }
                 }
                 setListPlayer(res.data.data.players)
                 socket.emit("joinroom", {
@@ -71,6 +90,9 @@ function MainWaiting() {
         socket.on("messagejoined", (data) => {
             setNeedFetching(true)
         })
+        socket.on("receive_Start", data => {
+            message.success('hello anh em')
+        })
     }, [socket])
     return (
         <>
@@ -88,6 +110,7 @@ function MainWaiting() {
                     <h1 className='text-center text-white'>{headerRoom && headerRoom.name}</h1>
                     <h5 className='text-center text-white'>duration/ question: {headerRoom && headerRoom.duration}s</h5>
                     <h5 className='text-center text-white'>point/ question: {headerRoom && headerRoom.points}</h5>
+                    <h5 className='text-center text-white'>CodeRoom: {codeRoom && codeRoom}</h5>
                 </div>
                 <div className="container" style={{ position: 'relative', top: '80px', height: '590px', maxHeight: '600px', overflowY: 'auto' }} >
                     <div className="row gap-3" style={{ justifyContent: 'center' }}>
@@ -105,7 +128,7 @@ function MainWaiting() {
                         <button className='btn-start'>
                             <span className="shadow" />
                             <span className="edge" />
-                            <span className="front text"> Start</span>
+                            <span className="front text" onClick={handleStartGame}> Start</span>
                         </button>
 
                     </div>}
