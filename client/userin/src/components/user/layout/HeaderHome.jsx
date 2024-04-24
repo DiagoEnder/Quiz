@@ -21,12 +21,14 @@ function HeaderHome() {
         navigate('/home/dashboard')
     }
     useEffect(() => {
-        GetInfo({ token })
-            .then(res => {
-                console.log(res.data.data)
-                setUser(res.data.data)
-            })
-            .catch(err => console.log(err))
+        if (token) {
+            GetInfo({ token })
+                .then(res => {
+                    console.log(res.data.data)
+                    setUser(res.data.data)
+                })
+                .catch(err => console.log(err))
+        }
     }, [token])
     const [show, setShow] = useState(false);
 

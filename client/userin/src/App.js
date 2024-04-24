@@ -21,7 +21,7 @@ function App() {
         <Routes>
           <Route path='/' element = {<Navigate to={`${ "/waiting"}`}/>}/>
           <Route path='/auth' element={isLogin ? <LayoutHome /> : <ParentAuth />}></Route>
-          <Route path='/home' element={!codeRoom ? <LayoutHome />: <Navigate to={`${ "/waiting"}`}/>}>
+          <Route path='/home' element={!isJoinRoom ? <LayoutHome />: <Navigate to={`${ "/waiting"}`}/>}>
             <Route index element={<HomeUser/>}/>
             <Route path='dashboard' element={<HomeDashBoard/>}></Route>
             <Route path='quiz/:id' element = {<DetailQuiz/>}/>

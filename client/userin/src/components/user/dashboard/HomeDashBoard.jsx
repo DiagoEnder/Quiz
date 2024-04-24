@@ -26,6 +26,10 @@ function HomeDashBoard() {
                 setDataQuiz(res.data.data)
                 setLoad(false)
                 setIsError(false)
+                const filteredArray = res.data.data.filter(item => item.user === userData._id);
+                const filteredArray1 = res.data.data.filter(item => item.user !== userData._id);
+                setNoMyQuiz(filteredArray1)
+                setMyQuiz(filteredArray)
             })
             .catch(err => {
                 console.log(err)

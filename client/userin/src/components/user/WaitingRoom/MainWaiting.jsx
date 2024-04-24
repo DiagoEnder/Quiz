@@ -16,6 +16,7 @@ function MainWaiting() {
     const [listPlayer, setListPlayer] = useState([])
     const [iDRoom, setIDRoom] = useState()
     const [headerRoom, setHeaderRoom] = useState()
+    const [isOwner, setIsOwner] = useState(false)
     const navigate = useNavigate()
     const handleLeaveRoom = () => {
         leaveRoom({ IdPlayer: `${userData ? userData._id : localStorage.getItem("_idUser")}`, IdRoom: iDRoom })
@@ -35,8 +36,11 @@ function MainWaiting() {
         GetCurrentRoom({ codeRoom: parseInt(localStorage.getItem("codeRoom")), token })
             .then(res => {
                 setHeaderRoom(res.data.data.quizId)
-                console.log(res.data.data.quizId.name)
+                console.log(res.data.data)
                 setIDRoom(res.data.data._id)
+                if (res.data.data.owner._id === userData._id) {
+                    setIsOwner(true)
+                }
                 setListPlayer(res.data.data.players)
                 socket.emit("joinroom", {
                     nameUser: localStorage.getItem("name"),
@@ -96,14 +100,15 @@ function MainWaiting() {
                         }
                     </div>
                 </div>
-                <div className="" style={{ position: 'absolute', bottom: '40px', right: '40px' }}>
-                    <button className='btn-start'>
-                        <span className="shadow" />
-                        <span className="edge" />
-                        <span className="front text"> Start</span>
-                    </button>
+                {isOwner &&
+                    <div className="" style={{ position: 'absolute', bottom: '40px', right: '40px' }}>
+                        <button className='btn-start'>
+                            <span className="shadow" />
+                            <span className="edge" />
+                            <span className="front text"> Start</span>
+                        </button>
 
-                </div>
+                    </div>}
             </div>
         </>
     )
