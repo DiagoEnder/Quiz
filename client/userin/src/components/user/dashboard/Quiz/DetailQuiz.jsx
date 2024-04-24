@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { GetDetailQuiz } from '../../../../api/quiz';
 import { useAuth } from '../../../context/AuthContext';
 import { useState } from 'react';
@@ -7,11 +7,25 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import QuestionDS from '../Question/QuestionDS';
 import CreateQuestion from '../Question/CreateQuestion';
+import { createRoom } from '../../../../api/room';
 
 function DetailQuiz() {
     const { id } = useParams();
-    const { token } = useAuth()
+    const navigate = useNavigate()
+    const { token, userData, setIsJoinRoom } = useAuth()
     const [questions, setQuestions] = useState([])
+    const handleStartLive = () => {
+        createRoom({ _idquiz: id, IdUser: userData._id, token })
+            .then(res => {
+                console.log(res.data)
+                localStorage.setItem('codeRoom', res.data.data.IdRoom)
+                setIsJoinRoom(true)
+                navigate('/waiting')
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
     useEffect(() => {
         let tokenValue = token
         if (token) {
@@ -27,7 +41,7 @@ function DetailQuiz() {
         <div className="container">
             <div className="row">
                 <div className="col">
-                    <button className='btn btn-info' style={{ padding: '0 6px' }}>Start Live</button>
+                    <button className='btn btn-info' style={{ padding: '0 6px' }} onClick={handleStartLive}>Start Live</button>
                 </div>
                 <CreateQuestion _id={id} />
             </div>

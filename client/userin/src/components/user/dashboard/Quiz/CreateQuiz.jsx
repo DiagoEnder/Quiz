@@ -71,7 +71,7 @@ function CreateQuiz({ FetchingData }) {
     return (
         <>
             <Button variant="primary" onClick={handleShow}>
-                Launch static backdrop modal
+                Create Quiz
             </Button>
 
             <Modal

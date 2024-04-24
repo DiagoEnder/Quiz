@@ -27,7 +27,7 @@ function App() {
             <Route path='quiz/:id' element = {<DetailQuiz/>}/>
           </Route>
           {/* <Route path='/waiting' element = {isJoinRoom ? <MainWaiting/>: <Navigate to="/home"/>}></Route> */}
-          <Route path='/waiting' element = { codeRoom ? <MainWaiting/>: <Navigate to={`${ "/home"}`}/>}></Route>
+          <Route path='/waiting' element = { isJoinRoom ? <MainWaiting/>: <Navigate to={`${ "/home"}`}/>}></Route>
           <Route path='/game' element = {<Game/>}></Route>
           
 

@@ -76,7 +76,7 @@ export const leaveRoom = async ({ IdPlayer, IdRoom }) => {
 }
 
 export const GetCurrentRoom = async ({ codeRoom, token }) => {
-    const { data } = await axios.get(`${BASE_URL}/api/v1/live/fetchroom?codeRoom=${8968}`, {
+    const { data } = await axios.get(`${BASE_URL}/api/v1/live/fetchroom?codeRoom=${codeRoom}`, {
         headers: {
             "Content-Type": "Application/json",
             // "Authorization": `Bearer ${token}`

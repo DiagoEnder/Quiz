@@ -15,6 +15,7 @@ function MainWaiting() {
     const [needFetching, setNeedFetching] = useState(false)
     const [listPlayer, setListPlayer] = useState([])
     const [iDRoom, setIDRoom] = useState()
+    const [headerRoom, setHeaderRoom] = useState()
     const navigate = useNavigate()
     const handleLeaveRoom = () => {
         leaveRoom({ IdPlayer: `${userData ? userData._id : localStorage.getItem("_idUser")}`, IdRoom: iDRoom })
@@ -31,9 +32,10 @@ function MainWaiting() {
     }
     let x = "https://act.hoyoverse.com/puzzle/upload/puzzle/2022/06/19/d05fd5736eaf5de2f119c1db55083e82_1721200333785918187.jpg"
     const fetchingRoom = () => {
-        GetCurrentRoom({ codeRoom: 8968, token })
+        GetCurrentRoom({ codeRoom: parseInt(localStorage.getItem("codeRoom")), token })
             .then(res => {
-                console.log(res.data.data.players)
+                setHeaderRoom(res.data.data.quizId)
+                console.log(res.data.data.quizId.name)
                 setIDRoom(res.data.data._id)
                 setListPlayer(res.data.data.players)
                 socket.emit("joinroom", {
@@ -45,7 +47,7 @@ function MainWaiting() {
     }
     useEffect(() => {
         if (needFetching) {
-            GetCurrentRoom({ codeRoom: 8968, token })
+            GetCurrentRoom({ codeRoom: parseInt(localStorage.getItem("codeRoom")), token })
                 .then(res => {
                     setListPlayer(res.data.data.players)
                     setNeedFetching(false)
@@ -79,9 +81,9 @@ function MainWaiting() {
             </div>
             <div className="container-fluid" style={{ backgroundImage: `url(${x})`, height: '100vh' }}>
                 <div className="row">
-                    <h1 className='text-center text-white'>Đây là tên của bộ câu hỏi</h1>
-                    <h5 className='text-center text-white'>Thời gian/ câu: 20s</h5>
-                    <h5 className='text-center text-white'>Điểm mỗi câu: 10</h5>
+                    <h1 className='text-center text-white'>{headerRoom && headerRoom.name}</h1>
+                    <h5 className='text-center text-white'>duration/ question: {headerRoom && headerRoom.duration}s</h5>
+                    <h5 className='text-center text-white'>point/ question: {headerRoom && headerRoom.points}</h5>
                 </div>
                 <div className="container" style={{ position: 'relative', top: '80px', height: '590px', maxHeight: '600px', overflowY: 'auto' }} >
                     <div className="row gap-3" style={{ justifyContent: 'center' }}>
